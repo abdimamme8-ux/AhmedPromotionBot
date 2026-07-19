@@ -1,15 +1,22 @@
-from aiogram import Router
-from aiogram.filters import CommandStart
-from aiogram.types import Message
+import asyncio
 
-from keyboards.menu import main_menu
+from aiogram import Bot, Dispatcher
 
-router = Router()
+from config import BOT_TOKEN
+from handlers.start import router as start_router
 
-@router.message(CommandStart())
-async def start_handler(message: Message):
-    await message.answer(
-        "🌹 Baga nagaan dhuftan gara AhmedPromotionBot!\n\n"
-        "📢 Mee menu keessaa filannoo tokko filadhaa.",
-        reply_markup=main_menu
-    )
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
+
+async def main():
+    dp.include_router(start_router)
+
+    print("AhmedPromotionBot hojii jalqabe...")
+
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
